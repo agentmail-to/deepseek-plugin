@@ -1,0 +1,19 @@
+# Scenario 2 — the full agent spine, exercising every ctx.agents call the
+# inbound driver makes. Still keyless: no LLM adapter is mounted.
+- name: '@deepseek-ai/dsh-session'
+- name: '@deepseek-ai/dsh-llm'
+- name: '@deepseek-ai/dsh-agent'
+- name: '@deepseek-ai/dsh-system-prompt'
+- name: '@deepseek-ai/dsh-tools'
+- name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  config:
+    root: './.sessions'
+- name: '@deepseek-ai/dsh-agent-loop'
+- name: '../lib/inbound.js'
+  config:
+    apiKey: !!js process.env.AGENTMAIL_API_KEY
+    inboxId: !!js process.env.AGENTMAIL_INBOX_ID
+    inbound:
+      mode: poll
+      pollIntervalMs: 3600000
+- name: './probe-agents.js'

@@ -68,6 +68,19 @@ export function apply(ctx: Context, config: Config): void {
 
   ctx.on('tools/pre-execute', async (exec, next): Promise<PreToolDecision> => {
     if (!OUTBOUND.has(exec.name)) return next()
+
+    // Deny before asking. The guard above is the monotonic backstop, but if the
+    // ask ran first a human would be prompted to approve a send that policy
+    // forbids — and the safety of that would depend on whether guards still run
+    // after approval resolves. Checking here makes the outcome order-independent.
+    const verdict = checkAllowlist(exec.name, exec.arguments, config.allowedRecipients)
+    if (!verdict.allowed) {
+      return {
+        kind: 'deny',
+        reason: `Recipient not permitted by dsh-agentmail allowedRecipients: ${verdict.rejected.join(', ')}`,
+      }
+    }
+
     const recipients = recipientsOf(exec.arguments)
     const target = recipients.length > 0 ? recipients.join(', ') : 'the draft recipients'
     return { kind: 'ask', reason: `Send email to ${target}?` }

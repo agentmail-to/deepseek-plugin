@@ -36,6 +36,14 @@ describe('recipient allowlist gate', () => {
     assert.equal(checkAllowlist('agentmail_send_message', { to: ['x@evil.com'] }, []).allowed, true)
   })
 
+  it('rejects before asking, so approval order cannot matter', () => {
+    // Verified in a live harness: with approval on, an ask would otherwise
+    // short-circuit the guard and prompt a human to approve a forbidden send.
+    const verdict = checkAllowlist('agentmail_send_message', { to: ['x@evil.com'] }, ['@acme.com'])
+    assert.equal(verdict.allowed, false)
+    assert.deepEqual(verdict.rejected, ['x@evil.com'])
+  })
+
   it('cannot screen send_draft, whose recipients live on the draft', () => {
     // Documented gap: the approval gate still covers this tool.
     const verdict = checkAllowlist('agentmail_send_draft', { draftId: 'd1' }, ['@acme.com'])

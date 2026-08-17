@@ -134,8 +134,32 @@ function every(ctx: Context, ms: number, fn: () => void): void {
   })
 }
 
-/** Adapt `ctx.agents` (plus persistence) to the router's narrow port. */
+/** A session-persistence backend, reduced to the one call this plugin makes. */
+interface PersistenceLike {
+  list(): Promise<{ id: string }[]>
+}
+
+/**
+ * Resolve an OPTIONAL service without stalling the plugin that wants it.
+ *
+ * Cordis has no optional `inject`: every declared dependency is awaited, and
+ * reading an undeclared `ctx.<service>` throws rather than yielding undefined.
+ * `ctx.inject()` starts a nested fiber that runs only once the service exists,
+ * so the reference stays undefined forever in a composition without it.
+ * @param ctx - plugin context.
+ * @returns a holder whose `current` is set once the service is available.
+ */
+function optionalPersistence(ctx: Context): { current: PersistenceLike | undefined } {
+  const ref: { current: PersistenceLike | undefined } = { current: undefined }
+  ctx.inject(['sessionPersistence'], scoped => {
+    ref.current = (scoped as unknown as { sessionPersistence: PersistenceLike }).sessionPersistence
+  })
+  return ref
+}
+
+/** Adapt `ctx.agents` (plus optional persistence) to the router's narrow port. */
 function sessionPort(ctx: Context, config: Config): SessionPort {
+  const persistenceRef = optionalPersistence(ctx)
   const wrap = (agent: {
     inject(message: ReturnType<typeof createUserMessage>): void
     followup(message: ReturnType<typeof createUserMessage>): void
@@ -163,11 +187,14 @@ function sessionPort(ctx: Context, config: Config): SessionPort {
       // real I/O error, and conflating those would silently start a blank
       // session and lose the thread's history — so probe first.
       //
-      // `sessionPersistence` is deliberately NOT in this plugin's `inject`:
-      // requiring it would stall inbound mail entirely in a composition that
-      // runs without persistence. Absent, every thread rebuilds from the API,
-      // which costs the reasoning trail but never correctness.
-      const persistence = (ctx as { sessionPersistence?: { list(): Promise<{ id: string }[]> } }).sessionPersistence
+      // `sessionPersistence` stays out of this plugin's top-level `inject`:
+      // requiring it would stall inbound mail entirely where persistence is not
+      // configured. It cannot simply be read off `ctx` either — Cordis throws
+      // "cannot get property X without inject" rather than returning undefined —
+      // so {@link persistenceRef} resolves it through a nested fiber that only
+      // runs if the service exists. Absent, every thread rebuilds from the API:
+      // that costs the reasoning trail, never correctness.
+      const persistence = persistenceRef.current
       if (persistence === undefined) return false
       try {
         const headers = await persistence.list()

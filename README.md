@@ -180,7 +180,28 @@ Layered on top:
 
 ## Implementation notes
 
-Three findings from reading the SDK and harness sources that shaped the code:
+Findings from reading the SDK and harness sources, and from running against both the live
+AgentMail API and a real harness composition. Each of these would otherwise have been a
+production bug.
+
+**Cordis enforces `inject`.** Reading an undeclared `ctx.<service>` **throws**
+(`cannot get property "x" without inject`) rather than returning `undefined`, and there is no
+optional-inject form — every declared dependency is awaited. The inbound driver wants
+`sessionPersistence` *if present* without stalling where it isn't configured, so it resolves it
+through a nested `ctx.inject()` fiber that simply never runs when the service is absent. Reading
+it directly would have thrown inside `exists()` and silently failed every inbound delivery.
+
+**Deny before asking.** With approval enabled, the `ask` from `tools/pre-execute` short-circuited
+the `ctx.tools.guard()` allowlist, so a forbidden recipient produced a human approval prompt
+instead of a denial — leaving safety dependent on whether guards still run after approval
+resolves. The gate now checks the allowlist first and returns `deny`, making the outcome
+independent of pipeline ordering. The guard remains as the monotonic backstop.
+
+**Session-log flush is not immediate.** A session created and disposed inside the flush window
+may not appear in `persistence.list()` yet, so `exists()` can return a false negative and rebuild
+that thread from the API instead of resuming it. Verified benign: `agents.create()` on an id that
+already has a log neither throws nor destroys it, so the cost is the reasoning trail, never
+correctness or data.
 
 **The AgentMail WebSocket's auto-reconnect only half-works.** A network drop closes with 1006
 and reconnects correctly. But an error or connection timeout runs `_handleError` →
@@ -234,11 +255,14 @@ at each call site.
 
 ```sh
 npm run typecheck   # tsc --noEmit over src and tests
-npm test            # 73 unit tests, no network
+npm test            # 74 unit tests, no network
 npm run build       # compile to lib/
 ```
 
-Tests run against fakes, so no API key is needed. Coverage focuses on what would be expensive to
+Tests run against fakes, so no API key is needed. `harness-test/` additionally boots the plugin
+inside a **real Cordis composition** with the actual harness service packages — see its README.
+That suite is what caught the two `inject`/approval-ordering bugs above; fakes agree with
+whatever you assumed, so the harness run is the one that argues back. Coverage focuses on what would be expensive to
 get wrong: the untrusted-content fencing, the concurrency latch, socket supervision, idempotency
 keys, the allowlist, and the follow-up retry semantics.
 
