@@ -1,0 +1,29 @@
+# Layer contributed by the dsh-agentmail bundle.
+#
+# Four independent rows: a deployment can override or drop any one of them from
+# its own profile patch without touching this package. Remember that a patch
+# replaces a row's whole `config`, so an override must restate every key it needs.
+- insert:
+    - id: agentmail-tools
+      name: dsh-agentmail/tools
+      config:
+        apiKey: !!js process.env.AGENTMAIL_API_KEY
+        inboxId: !!js process.env.AGENTMAIL_INBOX_ID
+
+    - id: agentmail-identity
+      name: dsh-agentmail/identity
+      config:
+        apiKey: !!js process.env.AGENTMAIL_API_KEY
+        inboxId: !!js process.env.AGENTMAIL_INBOX_ID
+
+    - id: agentmail-approval
+      name: dsh-agentmail/approval
+      config:
+        apiKey: !!js process.env.AGENTMAIL_API_KEY
+        requireApprovalForSend: true
+
+    - id: agentmail-inbound
+      name: dsh-agentmail/inbound
+      config:
+        apiKey: !!js process.env.AGENTMAIL_API_KEY
+        inboxId: !!js process.env.AGENTMAIL_INBOX_ID
