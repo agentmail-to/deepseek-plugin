@@ -33,7 +33,7 @@ four things below.
 
 ```sh
 export AGENTMAIL_API_KEY=...
-dsh plugin --profile demo add dsh-agentmail
+dsh plugin --profile demo add dsh-agentmail   # or: add github:agentmail-to/dsh-plugin#<sha>
 dsh --profile demo
 ```
 
@@ -68,7 +68,7 @@ Four independent plugins, so a deployment can drop any one from its own patch la
 
 ## Tools
 
-Ten, curated rather than a mirror of the REST API — every registered schema is paid on every
+Eleven, curated rather than a mirror of the REST API — every registered schema is paid on every
 model request.
 
 | Tool | Notes |

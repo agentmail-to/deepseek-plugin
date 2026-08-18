@@ -62,11 +62,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agentmail-to/deepseek-plugin.git"
+    "url": "git+https://github.com/agentmail-to/dsh-plugin.git"
   },
-  "homepage": "https://github.com/agentmail-to/deepseek-plugin#readme",
+  "homepage": "https://github.com/agentmail-to/dsh-plugin#readme",
   "bugs": {
-    "url": "https://github.com/agentmail-to/deepseek-plugin/issues"
+    "url": "https://github.com/agentmail-to/dsh-plugin/issues"
   },
   "keywords": [
     "dsh",
