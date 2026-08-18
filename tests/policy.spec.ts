@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
+import { readFileSync } from 'node:fs'
 import { checkAllowlist } from '../src/approval.js'
 import { Config } from '../src/config.js'
 import { identityText } from '../src/identity.js'
@@ -72,6 +73,18 @@ describe('tool surface', () => {
 
   it('keeps the surface small enough to be worth its prompt cost', () => {
     assert.ok(buildTools(runtime()).length <= 12, 'every schema is paid on every request')
+  })
+
+  it('registers exactly the tools the README documents', () => {
+    // The awesome-dsh-plugin list verifies described counts against source, and
+    // a README that drifts from the code is the easy way to end up misdescribed.
+    const registered = buildTools(runtime()).map(tool => tool.name).sort()
+    const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8')
+    const documented = [...readme.matchAll(/^\| `(agentmail_[a-z_]+)`/gm)].map(match => match[1]).sort()
+
+    assert.deepEqual(registered, documented, 'README tool table and buildTools() disagree')
+    assert.equal(registered.length, 11)
+    assert.match(readme, /^Eleven, curated/m, 'the prose count must match the table')
   })
 })
 
