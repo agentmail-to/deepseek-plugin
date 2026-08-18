@@ -17,7 +17,9 @@
   "files": [
     "lib",
     "cordis.patch.yml",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "assets"
   ],
   "dsh": {
     "bundle": {
@@ -28,7 +30,8 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.spec.ts",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "prepare": "tsc -p tsconfig.build.json --noCheck"
   },
   "dependencies": {
     "agentmail": "^0.5.19"
@@ -58,5 +61,24 @@
     "@types/node": "^24.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.9.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agentmail-to/dsh-agentmail.git"
+  },
+  "homepage": "https://github.com/agentmail-to/dsh-agentmail#readme",
+  "bugs": {
+    "url": "https://github.com/agentmail-to/dsh-agentmail/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis",
+    "agentmail",
+    "email",
+    "agent",
+    "inbox",
+    "ai-agent"
+  ]
 }
