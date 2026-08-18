@@ -1,19 +1,12 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/agentmail-to/dsh-agentmail/main/assets/hero.svg" width="100%" alt="dsh-agentmail — give a DeepSeek Harness agent its own email inbox; inbound mail is bound to one session per email thread" />
+  <img src="https://raw.githubusercontent.com/agentmail-to/dsh-agentmail/main/assets/hero.svg" width="100%" alt="dsh-agentmail — an AgentMail plugin for DeepSeek Harness. Give an agent its own email inbox; inbound mail becomes one harness session per email thread." />
 </p>
 
-<h1 align="center">dsh-agentmail</h1>
-
-<p align="center"><strong>Give a DeepSeek Harness agent its own email inbox — and, unlike a mail client, it wakes up when mail arrives.</strong></p>
-
-<p align="center">Inbound mail is bound to <b>one harness session per email thread</b>. There is no local mapping store: a thread session that doesn't exist yet rebuilds itself from the AgentMail API.</p>
-
 <p align="center">
-  <a href="https://www.npmjs.com/package/dsh-agentmail"><img src="https://img.shields.io/npm/v/dsh-agentmail?style=flat-square&color=CB3837&logo=npm&logoColor=white" alt="npm" /></a>
-  <a href="tests"><img src="https://img.shields.io/badge/tests-74%20passing-2EA44F?style=flat-square" alt="74 tests passing" /></a>
-  <a href="harness-test"><img src="https://img.shields.io/badge/verified-live%20harness%20%2B%20live%20API-5B4CF0?style=flat-square" alt="Verified against a live harness and the live AgentMail API" /></a>
-  <a href="https://github.com/topics/dsh-plugin"><img src="https://img.shields.io/badge/DSH-plugin-4D6BFE?style=flat-square" alt="DeepSeek Harness plugin" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2EA44F?style=flat-square" alt="MIT license" /></a>
+  <a href="https://www.npmjs.com/package/dsh-agentmail"><img src="https://img.shields.io/npm/v/dsh-agentmail?style=flat-square&labelColor=0A0A0A&color=3A3A3A" alt="npm" /></a>
+  <a href="tests"><img src="https://img.shields.io/badge/tests-74-3A3A3A?style=flat-square&labelColor=0A0A0A" alt="74 tests" /></a>
+  <a href="https://github.com/topics/dsh-plugin"><img src="https://img.shields.io/badge/dsh--plugin-topic-3A3A3A?style=flat-square&labelColor=0A0A0A" alt="dsh-plugin topic" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3A3A3A?style=flat-square&labelColor=0A0A0A" alt="MIT license" /></a>
 </p>
 
 <p align="center">
@@ -24,8 +17,6 @@
   <a href="#security">Security</a> ·
   <a href="#configuration">Config</a>
 </p>
-
----
 
 ## Two ways to install
 
@@ -57,12 +48,12 @@ dsh --profile demo
 
 | Capability | MCP client | This plugin |
 |---|---|---|
-| Send / read / search tools | ✅ | ✅ |
-| **Inbound mail reaches the agent** | ❌ | ✅ |
-| **Bounces reported back**, so a failed send isn't assumed delivered | ❌ | ✅ |
-| **Approval + recipient allowlist** before mail leaves | ❌ | ✅ |
-| **Follow-ups that survive the conversation ending** | ❌ | ✅ |
-| Inbox identity + untrusted-content rules in the system prompt | ❌ | ✅ |
+| Send, read and search tools | yes | yes |
+| Inbound mail reaches the agent | no | yes |
+| Bounces reported back, so a failed send isn't assumed delivered | no | yes |
+| Approval gate and recipient allowlist on outbound | no | yes |
+| Follow-ups that survive the conversation ending | no | yes |
+| Inbox identity and untrusted-content rules in the system prompt | no | yes |
 
 ### Local development
 
@@ -319,4 +310,18 @@ keys, the allowlist, and the follow-up retry semantics.
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
+
+---
+
+<p align="center">
+  <a href="https://agentmail.to">
+    <img src="https://raw.githubusercontent.com/agentmail-to/dsh-agentmail/main/assets/agentmail-wordmark-neutral.svg" width="150" alt="AgentMail" />
+  </a>
+</p>
+
+<p align="center">
+  <sub>Built by <a href="https://agentmail.to">AgentMail</a> — the email API for AI agents ·
+  <a href="https://docs.agentmail.to">Docs</a> ·
+  <a href="https://github.com/topics/dsh-plugin">More DSH plugins</a></sub>
+</p>
