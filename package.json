@@ -62,11 +62,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/agentmail-to/dsh-plugin.git"
+    "url": "git+https://github.com/agentmail-to/dsh-agentmail.git"
   },
-  "homepage": "https://github.com/agentmail-to/dsh-plugin#readme",
+  "homepage": "https://github.com/agentmail-to/dsh-agentmail#readme",
   "bugs": {
-    "url": "https://github.com/agentmail-to/dsh-plugin/issues"
+    "url": "https://github.com/agentmail-to/dsh-agentmail/issues"
   },
   "keywords": [
     "dsh",

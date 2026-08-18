@@ -33,7 +33,7 @@ four things below.
 
 ```sh
 export AGENTMAIL_API_KEY=...
-dsh plugin --profile demo add dsh-agentmail   # or: add github:agentmail-to/dsh-plugin#<sha>
+dsh plugin --profile demo add dsh-agentmail   # or: add github:agentmail-to/dsh-agentmail#<sha>
 dsh --profile demo
 ```
 
