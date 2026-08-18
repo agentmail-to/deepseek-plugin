@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" width="1200" height="340" role="img" aria-label="dsh-agentmail: give a DeepSeek Harness agent its own email inbox. Inbound mail is bound to one session per email thread.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#12172180"/>
+      <stop offset="55%" stop-color="#161B26"/>
+      <stop offset="100%" stop-color="#1B2233"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#5B4CF0"/>
+      <stop offset="100%" stop-color="#4D6BFE"/>
+    </linearGradient>
+    <linearGradient id="wire" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4D6BFE" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#4D6BFE" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#4D6BFE" stop-opacity="0.15"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="340" rx="14" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="1199" height="339" rx="14" fill="none" stroke="#2A3346"/>
+
+  <!-- title block -->
+  <text x="64" y="86" font-family="ui-sans-serif,-apple-system,Segoe UI,Inter,Helvetica,Arial,sans-serif"
+        font-size="44" font-weight="700" fill="#F0F3FA" letter-spacing="-0.5">dsh-agentmail</text>
+  <text x="64" y="126" font-family="ui-sans-serif,-apple-system,Segoe UI,Inter,Helvetica,Arial,sans-serif"
+        font-size="19" fill="#9AA6BF">Give a DeepSeek Harness agent its own email inbox.</text>
+  <rect x="64" y="146" width="132" height="4" rx="2" fill="url(#accent)"/>
+
+  <!-- flow: inbound mail -> thread -> session -->
+  <g transform="translate(64,196)">
+    <!-- node 1: inbound mail -->
+    <rect x="0" y="0" width="268" height="96" rx="12" fill="#1D2436" stroke="#33405C"/>
+    <g transform="translate(24,30)">
+      <rect x="0" y="0" width="40" height="30" rx="4" fill="none" stroke="#7C8AA8" stroke-width="2"/>
+      <path d="M0 3 L20 19 L40 3" fill="none" stroke="#7C8AA8" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="42" cy="2" r="7" fill="#4D6BFE" filter="url(#glow)"/>
+    </g>
+    <text x="84" y="42" font-family="ui-sans-serif,-apple-system,Segoe UI,Inter,Helvetica,Arial,sans-serif"
+          font-size="16" font-weight="600" fill="#E6EBF5">Inbound mail</text>
+    <text x="84" y="66" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+          font-size="12.5" fill="#8B98B4">message.received</text>
+
+    <!-- wire 1 -->
+    <line x1="278" y1="48" x2="352" y2="48" stroke="url(#wire)" stroke-width="2"/>
+    <path d="M352 42 L364 48 L352 54 Z" fill="#4D6BFE"/>
+
+    <!-- node 2: thread -->
+    <rect x="374" y="0" width="268" height="96" rx="12" fill="#1D2436" stroke="#33405C"/>
+    <g transform="translate(398,28)" stroke="#7C8AA8" stroke-width="2" fill="none">
+      <rect x="0" y="0" width="36" height="10" rx="3"/>
+      <rect x="6" y="15" width="36" height="10" rx="3"/>
+      <rect x="0" y="30" width="36" height="10" rx="3"/>
+    </g>
+    <text x="458" y="42" font-family="ui-sans-serif,-apple-system,Segoe UI,Inter,Helvetica,Arial,sans-serif"
+          font-size="16" font-weight="600" fill="#E6EBF5">Email thread</text>
+    <text x="458" y="66" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+          font-size="12.5" fill="#8B98B4">thread_2f4aef19…</text>
+
+    <!-- wire 2 -->
+    <line x1="652" y1="48" x2="726" y2="48" stroke="url(#wire)" stroke-width="2"/>
+    <path d="M726 42 L738 48 L726 54 Z" fill="#4D6BFE"/>
+
+    <!-- node 3: session -->
+    <rect x="748" y="0" width="288" height="96" rx="12" fill="#1D2436" stroke="#4D6BFE"/>
+    <g transform="translate(772,28)">
+      <rect x="0" y="0" width="42" height="40" rx="5" fill="none" stroke="#4D6BFE" stroke-width="2"/>
+      <path d="M9 13 L18 20 L9 27" fill="none" stroke="#4D6BFE" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="22" y1="28" x2="33" y2="28" stroke="#4D6BFE" stroke-width="2" stroke-linecap="round"/>
+    </g>
+    <text x="834" y="42" font-family="ui-sans-serif,-apple-system,Segoe UI,Inter,Helvetica,Arial,sans-serif"
+          font-size="16" font-weight="600" fill="#E6EBF5">One session per thread</text>
+    <text x="834" y="66" font-family="ui-monospace,SFMono-Regular,Menlo,monospace"
+          font-size="12.5" fill="#8B98B4">agentmail-2f4aef19…</text>
+  </g>
+
+  <text x="64" y="318" font-family="ui-sans-serif,-apple-system,Segoe UI,Inter,Helvetica,Arial,sans-serif"
+        font-size="13.5" fill="#6E7C99">No mapping store — a thread session that doesn’t exist rebuilds itself from the AgentMail API.</text>
+</svg>
